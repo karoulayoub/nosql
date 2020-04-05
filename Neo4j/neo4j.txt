@@ -1,0 +1,160 @@
+//Créer des entreprises
+create (Apple:Entreprises {Entreprises_Nom:"Apple", Secteur_d_activite:"digital products",Description:"an American multinational technology company headquartered in Cupertino, California, that designs, develops, and sells consumer electronics, computer software, and online services.",Taille:"137,000 employees"})
+
+create (Microsoft:Entreprises {Entreprises_Nom:"Microsoft",Secteur_d_activite:"computer software, consumer electronics, personal computers, and related services",Description:"an American multinational technology company with headquarters in Redmond, Washington. It develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",Taille:"148,465 employees"})
+
+create (Google:Entreprises {Entreprises_Nom:"Google",SecteurDActivite:"online advertising technologies, search engine, cloud computing, software, and hardware",Description:"an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, search engine, cloud computing, software, and hardware. ",Taille:"114,096 employees"})
+
+create (Alibaba:Entreprises {Entreprises_Nom:"Alibaba",Secteur_d_activite:"e-commerce, retail, Internet, and technology",Description:"a Chinese multinational conglomerate holding company specializing in e-commerce, retail, Internet, and technology.",Taille:"101,958 employees"})
+
+create (Tencent:Entreprises {Entreprises_Nom:"Tencent",Secteur_d_activite:"entertainment, artificial intelligence and technology",Description:"a Chinese multinational conglomerate holding company founded in 1998, whose subsidiaries specialise in various Internet-related services and products, entertainment, artificial intelligence and technology both in China and globally.",Taille:"38,775 employees"})
+
+//Créer des utilisateurs
+create (Linda:Utilisateurs{Name:"Linda Lee",Description:"Full-time staff",Liste_des_competences:"JAVA,Python"})
+
+create (Eric:Utilisateurs{Name:"Eric John",Description:"Full-time staff",Liste_des_competences:"C++,Python"})
+
+create (Bob:Utilisateurs{Name:"Bob Wilson",Description:"Intern staff",Liste_des_competences:"C++,JAVA"})
+
+create (Evan:Utilisateurs{Name:"Evan Cook",Description:"Intern staff",Liste_des_competences:"C++,JAVA"})
+
+create (Mark:Utilisateurs{Name:"Mark Green",Description:"Intern staff",Liste_des_competences:"C++,JAVA"})
+
+create (Jack:Utilisateurs{Name:"Jack Lee",Description:"Full-time staff",Liste_des_competences:"C,Python"})
+
+//Créer des relations utilisateurs - utilisateurs 
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Linda Lee' and n.Name = 'Bob Wilson'
+create (m)-[r:is_colleague_of]->(n)
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Eric John' and n.Name = 'Bob Wilson'
+create (m)-[r:is_colleague_of]->(n)
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Eric John' and n.Name = 'Linda Lee'
+create (m)-[r:is_friend_of]->(n)
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Bob Wilson' and n.Name = 'Evan Cook'
+create (m)-[r:is_friend_of]->(n)
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Mark Green' and n.Name = 'Eric John'
+create (m)-[r:is_friend_of]->(n)
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Eric John' and n.Name = 'Jack Lee'
+create (m)-[r:is_friend_of]->(n)
+
+////Créer des relations utilisateurs - entreprise
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Linda Lee' and n.Entreprises_Nom = 'Apple'
+create (m)-[r:is_staff_of]->(n)
+
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Eric John' and n.Entreprises_Nom = 'Apple'
+create (m)-[r:is_staff_of]->(n)
+
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Bob Wilson' and n.Entreprises_Nom = 'Apple'
+create (m)-[r:is_staff_of]->(n)
+
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Mark Green' and n.Entreprises_Nom = 'Alibaba'
+create (m)-[r:is_staff_of]->(n)
+
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Evan Cook' and n.Entreprises_Nom = 'Google'
+create (m)-[r:is_staff_of]->(n)
+
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Linda Lee' and n.Entreprises_Nom = 'Tencent'
+create (m)-[r:is_staff_of]->(n)
+
+//Definir les temps de travail des employés dans l'entreprise
+match (m:Utilisateurs)-[r]->(n:Entreprises)
+where m.Name = 'Linda Lee' and n.Entreprises_Nom = 'Apple'
+set r.time='201508-201609'
+return r
+
+match (m:Utilisateurs)-[r]->(n:Entreprises)
+where m.Name = 'Linda Lee' and n.Entreprises_Nom = 'Tencent'
+set r.time='201610-201910'
+return r
+
+
+match (m:Utilisateurs)-[r]->(n:Entreprises)
+where m.Name = 'Bob Wilson' and n.Entreprises_Nom = 'Apple'
+set r.time='201508-201609'
+return r
+
+match (m:Utilisateurs)-[r]->(n:Entreprises)
+where m.Name = 'Eric John' and n.Entreprises_Nom = 'Apple'
+set r.time='201508-201709'
+return r
+
+//Definir les relations entre les entreprises
+match (m:Entreprises),(n:Entreprises)
+where m.Entreprises_Nom = 'Alibaba' and n.Entreprises_Nom = 'Microsoft'
+create (m)-[r:offer_outsourcing_service_to]->(n)
+
+
+match (m:Entreprises),(n:Entreprises)
+where m.Entreprises_Nom = 'Google' and n.Entreprises_Nom = 'Apple'
+create (m)-[r:is_competitive_with]->(n)
+
+match (m:Entreprises),(n:Entreprises)
+where m.Entreprises_Nom = 'Tencent' and n.Entreprises_Nom = 'Google'
+create (m)-[r:is_collaborate_with]->(n)
+
+
+//Les commands des recherches
+
+//Les requêtes de recherche par le nom de utilisateur
+match (m:Utilisateurs)
+where m.Name='Linda Lee'
+return m.Name
+
+//Les requêtes de recherche par la relation
+match (:Utilisateurs{Name:"Linda Lee"})-[:is_colleague_of]->(n)
+return n
+
+//Utilisateurs connus par les connaissances d’un utilisateur donné
+match (Mark:Utilisateurs {Name:"Mark Green"})-[:is_friend_of]-()-[:is_friend_of]-(u) return u
+
+//Recherche par la relation <A travaillé avec>
+match (:Utilisateurs{Name:"Linda Lee"})-[:is_colleague_of]->(n)
+return n
+
+
+//Recherche les utilisateurs ayant travaillé en même temps qu’un utilisateur donné dans une entreprise donnée
+//La première ligne indique la durée de travail d'un utilisateur donné dans une entreprise donnée
+//La deuxième ligne représente l'employé ayant travaillé en même temps
+match (Linda:Utilisateurs{Name:"Linda Lee"})-[r:is_staff_of{time:"201508-201609"}]->(n)
+match (m:Utilisateurs)-[:is_staff_of{time:"201508-201709"}]->(n)
+return m
+
+
+
+//Supprimer la relation
+match (m:Utilisateurs),(n:Entreprises)
+where m.Name = 'Eric John' and n.Entreprises_Nom = 'Apple'
+optional match (m:Utilisateurs)-[r]-(n:Entreprises)
+delete r
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Linda Lee' and n.Name = 'Bob Wilson'
+optional match (m:Utilisateurs)-[r]-(n:Utilisateurs)
+delete r
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Linda Lee' and n.Name = 'Bob Wilson'
+create (m)-[r:is_colleague_of]->(n)
+return m,n
+
+match (m:Utilisateurs),(n:Utilisateurs)
+where m.Name = 'Eric John' and n.Name = 'Jack Lee'
+optional match (m:Utilisateurs)-[r]-(n:Utilisateurs)
+delete r
+

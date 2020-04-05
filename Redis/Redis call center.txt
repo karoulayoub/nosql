@@ -1,0 +1,148 @@
+//Nous utilisons le type de données de hachage pour stocker les informations du appel
+
+// Nous avons deux façons de créer une table de hachage:
+// La première méthode: Utilisez Hmset pour définir plusieurs field-value dans la table de hachage en même temps.
+// La deuxième méthode: Définissez une paire de valeurs de champ unique dans une table de hachage à l'aide de la commande Hset
+
+//On ajoute les status 
+hset appels statu:1 "Non_affecte"   
+hset appels statu:2 "Non_pris_en_compte" 
+hset appels statu:3 "En_cours"  
+hset appels statu:4 "Termine" 
+
+//On ajoute 5 exemples d'appels
+
+//La première méthode qui est en utilisant le  command hmset
+//La table de hachage "appels" n'existe pas, donc une nouvelle table de hachage est créée et l'opération HMSET est effectuée.
+hmset appels identifiant:1 "call_1" calltime:1 "0800" callnumber:1 "12345678" statu:1 "En_cours" Duree:1 "2min" operateur:1 "001" description:1 "query telephone bill"
+
+// La deuxième méthode en utilisant le command HSET KEY_NAME FIELD VALUE 
+hset appels identifiant:1 "call_1"  //Identifiant d'un appel et le key est "1" 
+hset appels calltime:1 "0800"  //Heure du premier appel est 08:00
+hset appels callnumber:1 "12345678"  //Numéro d’origine
+hset appels statu:1 "En_cours"   //Le statut de ce appel
+hset appels Duree:1 "2min"   //La durée de ce appel  
+hset appels operateur:1 "001"   //L'opérateur qui traite ce appel
+hset appels description:1 "query telephone bill"   //La texte descriptif de ce appel
+
+
+//Nous utilisons la même méthode pour définir les propriétés du deuxième appel，
+//Mais le field de cet appel est "2"
+
+
+hmset appels identifiant:2 "call_2" calltime:2 "0820" callnumber:2 "12345689" statu:2 "Non_affecte" Duree:2 "1min" operateur:2 "002" description:2 "query data traffic"
+
+hset appels identifiant:2 "call_2"  // Identifiant d'un appel et le key est "2"
+hset appels calltime:2 "0820"   // Heure du premier appel est 08:20
+hset appels callnumber:2 "12345689"  //Numéro d’origine
+hset appels statu:2 "Non_affecte"   //Le statut de ce appel
+hset appels Duree:2 "1min"   //La durée de ce appel
+hset appels operateur:2 "002"   //L'opérateur qui traite ce appel
+hset appels description:2 "query data traffic"    //La texte descriptif de ce appel
+
+
+
+//Nous utilisons la même méthode pour définir les propriétés du trosième appel，
+//Mais le field de cet appel est "3"
+
+hmset appels identifiant:3 "call_3" calltime:3 "0900" callnumber:3 "12345690" statu:3 "En_cours" Duree:3 "1.2min" operateur:3 "003" description:3 "handle broadband service"
+
+hset appels identifiant:3 "call_3"  // Identifiant d'un appel et le key est "3"
+hset appels calltime:3 "0900"   // Heure du premier appel est 09:00
+hset appels callnumber:3 "12345690" //Numéro d’origine
+hset appels statu:3 "En_cours"   //Le statut de ce appel
+hset appels Duree:3 "1.2min" //La durée de ce appel
+hset appels operateur:3 "003" //L'opérateur qui traite ce appel
+hset appels description:3 "handle broadband service" //La texte descriptif de ce appel
+
+
+// quatième apple
+hmset appels identifiant:4 "call_4" calltime:4 "0920" callnumber:4 "12345691" statu:4 "Non_affecte" Duree:4 "1.5min" operateur:4 "001" description:4 "query data traffic"
+
+hset appels identifiant:4 "call_4" // Identifiant d'un appel et le key est "4"
+hset appels calltime:4 "0920"    // Heure du premier appel est 09:20
+hset appels callnumber:4 "12345691" //Numéro d’origine
+hset appels statu:4 "Non_affecte"   //Le statut de ce appel
+hset appels Duree:4 "1.5min" //La durée de ce appel
+hset appels operateur:4 "001" //L'opérateur qui traite ce appel
+hset appels description:4 "query data traffic" //La texte descriptif de ce appel
+
+
+// cinquième apple
+hmset appels identifiant:5 "call_5" calltime:5 "1000" callnumber:5 "12345692" statu:5 "Termine" Duree:5 "5min" operateur:5 "002" description:5 "query data traffic"
+
+hset appels identifiant:5 "call_5" // Identifiant d'un appel et le key est "5"
+hset appels calltime:5 "1000"  // Heure du premier appel est 10:00
+hset appels callnumber:5 "12345692" //Numéro d’origine
+hset appels statu:5 "Termine"   //Le statut de ce appel
+hset appels Duree:5 "5min" //La durée de ce appel
+hset appels operateur:5 "002" //L'opérateur qui traite ce appel
+hset appels description:5 "query data traffic" //La texte descriptif de ce appel
+
+
+
+
+//on insère les operateurs avec certaines propriétés
+
+hmset operateur id:1 "001" nom:1 "Lee" prenom:1 "Linda"
+
+hset operateur id:1 "001" //Identifiant du opérateur
+hset operateur nom:1 "Lee" //Nom du opérateur
+hset operateur prenom:1 "Linda" //Prénom du opérateur
+
+
+//hmset operateur id:2 "002" nom:2 "Wilson" prenom:2 "Bob"
+
+hset operateur id:2 "002" //Identifiant du opérateur
+hset operateur nom:2 "Wilson" //Nom du opérateur
+hset operateur prenom:2 "Bob" //Prénom du opérateur
+
+
+hmset operateur id:3 "003" nom:3 "Smith" prenom:3 "John"
+
+hset operateur id:3 "003" //Identifiant du opérateur
+hset operateur nom:3 "Smith" //Nom du opérateur
+hset operateur prenom:3 "John" //Prénom du opérateur
+
+
+
+//Ajouter l'appel "call_1" dans "en cours"
+sadd Status_Appel:"En_cours"  "call_1"
+
+
+//Ajouter un téléphone à la collection En_cours. Hsenx indique que si la valeur de clé n'existe pas, elle peut y être ajoutée. 
+//Si l'opérateur actuel répond au téléphone, il ne peux pas être ajouté.
+hsetnx Status_En_cours Operateur1 "call_3"  
+
+
+//Ajouter chaque appel “en cours” de traitement par l'opérateur
+sadd operateur_001_AppelEnCour "call_1"
+sadd operateur_002_AppelEnCour "call_2"
+sadd operateur_003_AppelEnCour "call_3"
+
+sadd appelSet_a_affecter "call_4" "call_5" 
+
+
+
+
+//Les Scripts de lua:
+
+//Opération de script - ajouter des informations d'appel
+redis-cli --eval C:\redis\appels.lua appels , identifiant:1 "call_1" calltime:1 "0800" callnumber:1 "12345678" statu:1 "Non_affecte" Duree:1 "2min" operateur:1 "001" description:1 "query telephone bill"
+
+redis-cli --eval C:\redis\appels.lua appels , identifiant:2 "call_2" calltime:2 "0820" callnumber:2 "12345689" statu:2 "Non_affecte" Duree:2 "1min" operateur:2 "002" description:2 "query data traffic"
+
+redis-cli --eval C:\redis\appels.lua appels , identifiant:3 "call_3" calltime:3 "0900" callnumber:3 "12345690" statu:3 "Non_affecte" Duree:3 "1.2min" operateur:3 "003" description:3 "handle broadband service"
+
+redis-cli --eval C:\redis\appels.lua appels , identifiant:4 "call_4" calltime:4 "0920" callnumber:4 "12345691" statu:4 "Non_affecte" Duree:4 "1.5min" operateur:4 "001" description:4 "query data traffic"
+
+redis-cli --eval C:\redis\appels.lua appels , identifiant:5 "call_5" calltime:5 "1000" callnumber:5 "12345692" statu:5 "Non_affecte" Duree:5 "5min" operateur:5 "002" description:5 "query data traffic"
+
+
+
+//Opération de script - ajouter des informations sur l'opérateur
+redis-cli --eval C:\redis\operateur.lua operateur , id:1 "001" nom:1 "Linda" prenom:1 "Lee"
+
+redis-cli --eval C:\redis\operateur.lua operateur , id:2 "002" nom:2 "Bob" prenom:2 "Wilson"
+
+redis-cli --eval C:\redis\operateur.lua operateur , id:3 "003" nom:3 "Smith" prenom:3 "John"
